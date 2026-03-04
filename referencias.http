@@ -9,3 +9,12 @@ Content-Type: application/json
     "nome": "nanaja",
     "senha": "2011"
 }
+
+###
+PUT http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+{
+    "nome": "regina",
+    "senha": "gabriela"
+}
