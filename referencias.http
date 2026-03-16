@@ -6,8 +6,9 @@ POST http://localhost:3000/usuarios
 Content-Type: application/json
 
 {
-    "nome": "nanaja",
-    "senha": "2011"
+    "nome": "nana",
+    "email":"nanazinha@gmail.com",
+    "senha":"123"
 }
 
 ###
@@ -15,10 +16,11 @@ PUT http://localhost:3000/usuarios/2
 Content-Type: application/json
 
 {
-    "nome": "regina",
-    "senha": "gabriela"
-}
+    "nome": "mamama",
+    "email":"nana@gmail.com",
+    "senha": "133"
+   } 
 
 ###
-DELETE http://localhost:3000/usuarios/7
+DELETE http://localhost:3000/usuarios/
 

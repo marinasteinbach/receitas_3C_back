@@ -21,14 +21,34 @@ servidor.get('/usuarios', async () => {
 servidor.post ('/usuarios', async (request, reply) => {
     const nome = request.body.nome;
     const senha = request.body.senha;
-    const resultado = await sql.query('INSERT INTO usuario (nome, senha)VALUES ($1, $2)', [nome, senha])
+    const email = request.body.email;
+
+    if (!nome || !senha || !email){
+        return reply.status(400).send({error:"nome,senha e email são obrigatórios!"})
+    }
+    
+    const resultado = await sql.query('INSERT INTO usuario (nome, senha, email)VALUES ($1, $2, $3)', [nome, senha, email])
     reply.status(201).send({mensagem:"Deu Certo!"})
 })
 
     servidor.put('/usuarios/:id', async (request,reply) =>{
         const body = request.body;
-        const id = request.params.id
-        const resultado = await sql.query('UPDATE usuario SET nome = $1, senha = $2 WHERE id = $3', [body.nome, body.senha, id])
+        const id = request.params.id;
+
+
+
+        if(!body || !body.nome||!body.senha||!body.email){
+           return reply.status(400).send({error: 'Nome, senha ou email inválidos!'})
+        }
+        else if (!id){
+            return reply.status(400).send({error: 'Faltou o ID!'})
+        }
+         const existe = await sql.query ('select * from usuario where id = $1', [id])
+         if (existe.rows.length === 0){
+            reply.status(400).send({error:'Usuário não existe no banco'})
+         }
+
+        const resultado = await sql.query('UPDATE usuario SET nome = $1, senha = $2, email = $4 WHERE id = $3', [body.nome, body.senha, id, body.email])
         return 'Usuário Alterado!'
     })
 
@@ -38,6 +58,8 @@ servidor.post ('/usuarios', async (request, reply) => {
         reply.status(204)
     
     })
+
+
 
 servidor.listen({
     port: 3000
